@@ -27,7 +27,7 @@
         <span class="message-title" @click="openCourse(scope.row.course_name)">{{scope.row.course_name}}</span>
       </template>
     </el-table-column>
-    
+
     </el-table>
   </div>
 </div>
@@ -44,6 +44,7 @@ export default {
       CourseList: Array(),
     }
   },
+
   mounted(){
     var post_request = new FormData()
     post_request.append('schoolname', this.$route.params.school)
@@ -56,7 +57,7 @@ export default {
     })
     .then((response) =>{
       //console.log('get return data')
-      console.log(response)    
+      console.log(response)
       this.CourseList = response.data.courselist
     })
   },

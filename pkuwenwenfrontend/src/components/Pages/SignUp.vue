@@ -1,13 +1,13 @@
 <template>
 <div>
     <div id="navbar">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/About">About</router-link> |
-        <router-link to="/SignIn">Sign In</router-link> |
-        <router-link to="/SignUp">Sign Up</router-link>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/DoctorSignIn">Doctor Sign In</router-link> |
+      <router-link to="/PatientSignIn">Patient Sign In</router-link> |
+      <router-link to="/SignUp">Sign Up</router-link>
     </div>
     <div>
-        <img alt="Vue logo" src="./logo.png">
+        <img alt="Vue logo" src="../../assets/logo2.jpeg">
     </div>
     <div class="ms-login">
         <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">

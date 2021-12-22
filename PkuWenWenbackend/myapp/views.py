@@ -20,19 +20,23 @@ def register(request):
     userName = request.POST.get('userName', 'username')
     password = request.POST.get('password', 'xxx')
     email = request.POST.get('email', 'undefined')
+    userType = request.POST.get('userType', 'patient')
     res = {'retCode': 0, 'message': ''}
 
     obj = models.UserModel.objects.filter(userName=userName)
     objmail = models.UserModel.objects.filter(email=email)
 
     if obj.count() == 0 and objmail.count() == 0:
-        mailret = send_mail('PkuWenWen注册', '您正在进行PkuWenWen注册，如果不是您亲自操作，请及时联系本邮箱',
+        mailret = send_mail('PkuHospital注册', '您正在进行PkuHospital注册，如果不是您亲自操作，请及时联系本邮箱',
                             'se_5group@163.com', [email], fail_silently=False)
 
         if mailret == 1:
-            models.UserModel.objects.create(userName=userName, password=password,email=email)
-            obj = models.UserModel.objects.get(userName=userName)
-            # obj.collectList.remove('-1')
+            if userType == 'patient':
+                models.PatientModel.objects.create(userName=userName, password=password,email=email)
+                obj = models.PatientModel.objects.get(userName=userName)
+            elif userType == 'doctor':
+                models.DoctorModel.objects.create(userName=userName, password=password,email=email)
+                obj = models.DoctorModel.objects.get(userName=userName)
             obj.save()
             res['retCode'] = 1
             res['message'] = '注册成功'
@@ -47,7 +51,7 @@ def register(request):
 
     return JsonResponse({'register': res})
 
-# 登录：登录之后会自动跳转到SchoolIndex页
+# 登录：登录之后会自动跳转到OfficeIndex页
 @csrf_exempt
 def login(request):
     userName = request.POST.get('userName', 'username')
@@ -73,10 +77,15 @@ def login(request):
     return JsonResponse({'login': res})
     # return HttpResponse(json.dumps({'login': res}))
 @csrf_exempt
-def getSchoolIndex(request):
+def getOfficeIndex(request):
     retdata = {}
-    schools = models.School.objects.values()
-    retdata['schoollist'] = list(schools)
+    offices = models.Office.objects.values()
+    office_list = list(offices)
+    res_list = list()
+    for office in office_list:
+        doctor_num = len(models.Office.objects.raw('SELECT * FROM myapp_work WHERE office_name = %s', [office['office_name']]))
+        res_list.append({'office_name': office['office_name'], 'doctor_num': doctor_num})
+    retdata['Officelist'] = res_list
     return JsonResponse(retdata)
 
 @csrf_exempt
@@ -116,7 +125,7 @@ def addQuestion(request):
         res['retCode'] = 1
         res['message'] = '添加问题失败'
     return JsonResponse({'addQuestion':res})
-    
+
 @csrf_exempt
 def addReply(request):
     rep = request.POST.get('replyer')
@@ -184,9 +193,9 @@ def openSchool(request):
 @csrf_exempt
 def openCourse(request):
     courseName = request.POST.get('course', '软件工程')
-    questions = [ 
-        {'date': '更新于 2021-06-03 15:56:00', 'title': 'Question1 from backend', 'content': 'c1', 'stars': 58, 'link': 'l1'}, 
-        {'date': '更新于 2021-06-03 15:56:00', 'title': 'Question2 from backend', 'content': 'c2', 'stars': 66, 'link': 'l2'}, 
+    questions = [
+        {'date': '更新于 2021-06-03 15:56:00', 'title': 'Question1 from backend', 'content': 'c1', 'stars': 58, 'link': 'l1'},
+        {'date': '更新于 2021-06-03 15:56:00', 'title': 'Question2 from backend', 'content': 'c2', 'stars': 66, 'link': 'l2'},
         ]
     questions = json.JSONEncoder(ensure_ascii=False).encode(questions)
     return JsonResponse({'retCode': 1, 'questions': questions})
@@ -198,7 +207,7 @@ def openQuestion(request):
 
     curQuestion = { 'publisher': 'alice', 'title': 'ahhhhhhh', 'detail': '咆哮啊啊啊', 'proNum': 2, 'conNum': 1, 'subscribeNum': 3,}
     curQuestion = json.JSONEncoder(ensure_ascii=False).encode(curQuestion)
-    curAnswer = { 'publisher': 'bob', 'title': 'hahahahahaha', 'detail': '哈哈哈哈哈', 'proNum': 6, 'conNum': 6, 'subscribeNum': 12,} 
+    curAnswer = { 'publisher': 'bob', 'title': 'hahahahahaha', 'detail': '哈哈哈哈哈', 'proNum': 6, 'conNum': 6, 'subscribeNum': 12,}
     # 现在只显示一个问题和一个答案, 如果我们想要看一个问题的所有答案, 只需要搞成list of dict 就可以了 暂时不实现
     curAnswer = json.JSONEncoder(ensure_ascii=False).encode(curAnswer)
 

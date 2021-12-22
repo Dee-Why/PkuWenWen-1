@@ -13,25 +13,25 @@ const routes = [
     },
 
     {
-        path: '/SignIn',
-        name: 'SignIn',
-        component: () => import('../components/Pages/SignIn.vue')
+        path: '/PatientSignIn',
+        name: 'PatientSignIn',
+        component: () => import('../components/Pages/PatientSignIn.vue')
     },
 
     {
-        path: '/About',
-        name: 'About',
-        component: () => import('../components/About.vue')
+        path: '/DoctorSignIn',
+        name: 'DoctorSignIn',
+        component: () => import('../components/Pages/DoctorSignIn.vue')
     },
     {
-        path: '/SchoolIndex',
-        name: 'SchoolIndex',
-        component: () => import('../components/Pages/SchoolIndex.vue')
+        path: '/OfficeIndex',
+        name: 'OfficeIndex',
+        component: () => import('../components/Pages/OfficeIndex.vue')
     },
     {
-        path: '/:school/CourseIndex', //使用动态链接，school是院系名
-        name: 'CourseIndex',
-        component: () => import('../components/Pages/CourseIndex.vue')
+        path: '/:office/DoctorIndex', //使用动态链接，office是院系名
+        name: 'DoctorIndex',
+        component: () => import('../components/Pages/DoctorIndex.vue')
     },
     {
         path: '/:school/:course/QuestionIndex',

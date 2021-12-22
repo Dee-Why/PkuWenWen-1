@@ -1,8 +1,11 @@
 from django.db import models
 import json
 # Create your models here.
+
+
 class Note(models.Model):
     note = models.CharField(max_length=180)
+
 
 class UserModel(models.Model):
     userName = models.CharField(max_length=32, default='userName')  # 用户名
@@ -15,12 +18,21 @@ class UserModel(models.Model):
         return self.userName
 
 
+class PatientModel(UserModel):
+    pid = models.IntegerField()  # 标明患者的唯一id
+
+
+class DoctorModel(UserModel):
+    did = models.IntegerField()  # 标明医生的唯一id
+    rank = models.CharField(max_length=20, default='general')  # 职级：general or chief
+
+
 # 问题回复
 class Reply(models.Model): 
-    proNum = models.IntegerField(default=0) # 点赞数
-    conNum = models.IntegerField(default=0) # 点踩数
-    replyer = models.CharField(max_length=32) # 用户名，在后台记录，在前台匿名
-    qid = models.IntegerField() #这个回复所属的问题在数据库里的id
+    proNum = models.IntegerField(default=0)  # 点赞数
+    conNum = models.IntegerField(default=0)  # 点踩数
+    replyer = models.CharField(max_length=32)  # 用户名，在后台记录，在前台匿名
+    qid = models.IntegerField()  # 这个回复所属的问题在数据库里的id
     content = models.TextField() 
 
 
@@ -38,10 +50,24 @@ class Question(models.Model):
 # 课程
 class Course(models.Model):
     sid = models.IntegerField() # 课程所属院系
-    course_id = models.CharField(max_length = 25, default = '0000') #课程号
-    course_name = models.CharField(max_length = 25) #课程名
+    course_id = models.CharField(max_length=25, default = '0000') #课程号
+    course_name = models.CharField(max_length=25)  # 课程名
+
+    def __str__(self):
+        return self.course_name
 
 
 # 院系
-class School(models.Model):
-    school_name = models.CharField(max_length = 30) #院系名
+class Office(models.Model):
+    office_name = models.CharField(max_length=30)  # 科室名
+
+    def __str__(self):
+        return self.office_name
+
+
+class Work(models.Model):
+    doctor_name = models.CharField(max_length=32)
+    office_name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.doctor_name + ' ' + self.office_name

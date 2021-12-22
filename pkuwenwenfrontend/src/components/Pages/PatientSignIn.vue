@@ -1,16 +1,16 @@
 <template>
 <div>
     <div id="navbar">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/About">About</router-link> |
-        <router-link to="/SignIn">Sign In</router-link> |
-        <router-link to="/SignUp">Sign Up</router-link>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/DoctorSignIn">Doctor Sign In</router-link> |
+      <router-link to="/PatientSignIn">Patient Sign In</router-link> |
+      <router-link to="/SignUp">Sign Up</router-link>
     </div>
     <div>
-        <img alt="Vue logo" src="./logo.png">
+        <img alt="Vue logo" src="../../assets/logo2.jpeg">
     </div>
     <div class="ms-login">
-      <div class="ms-title">北大问问登陆</div>
+      <div class="ms-title">北大医院登陆</div>
       <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
         <el-form-item prop="username">
           <el-input v-model="param.username" placeholder="请输入用户名">
@@ -79,7 +79,7 @@ export default {
                 })
                 */
                 localStorage.setItem("ms_username", this.param.username)
-                this.$router.push('/SchoolIndex');
+                this.$router.push('/OfficeIndex');
               }
               else if(response.data.login.retCode == 2) {
                 /*_this.$message({
