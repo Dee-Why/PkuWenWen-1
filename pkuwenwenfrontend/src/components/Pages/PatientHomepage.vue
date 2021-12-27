@@ -7,19 +7,19 @@
   <p> Patient Homepage </p>
   </div>
   <el-row>
-    <el-col :span="12"><div class="grid-content bg-purple">患者真实姓名</div></el-col>
-    <el-col :span="12"><div class="grid-content bg-purple-light">患者编号</div></el-col>
+    <el-col :span="12"><div class="grid-content bg-purple">{{realName}}</div></el-col>
+    <el-col :span="12"><div class="grid-content bg-purple-light">{{patientID}}</div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="6"><div class="grid-content bg-purple">登录名</div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple-light">性别</div></el-col>
-    <el-col :span="12"><div class="grid-content bg-purple">身份证号</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple">{{userName}}</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple-light">{{gender}}</div></el-col>
+    <el-col :span="12"><div class="grid-content bg-purple">{{idCardNumber}}</div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="6"><div class="grid-content bg-purple-light">电话</div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple">电子邮件</div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple-light">出生日期</div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple">进行中的预约数</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple-light">{{phoneNumber}}</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple">{{email}}</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple-light">{{birthday}}</div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple">{{appointmentNumber}}</div></el-col>
   </el-row>
   <div class="">
     <el-table :data="OfficeList" style="width: 30%">
@@ -42,11 +42,20 @@
 <script>
 export default {
   name: 'tabs',
-  data() {
+  data: function() {
     return {
       message: 'first',
       showHeader: false,
-      OfficeList: Array()
+      OfficeList: Array(),
+      realName: '真实姓名',
+      patientID: '患者编号',
+      userName: '登录名',
+      gender: '性别',
+      idCardNumber: '身份证号',
+      phoneNumber: '电话号码',
+      email: '邮箱',
+      birthday: '生日写这里咯',
+      appointmentNumber: '预约数233',
     }
   },
   mounted(){
