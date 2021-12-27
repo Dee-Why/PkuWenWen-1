@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/DoctorSignIn">Doctor Sign In</router-link> |
       <router-link to="/PatientSignIn">Patient Sign In</router-link> |
-      <router-link to="/SignUp">Sign Up</router-link>
+      <router-link to="/SignUpAsPatient">Sign Up as Patient</router-link> |
+      <router-link to="/SignUpAsDoctor">Sign Up as Doctor</router-link>
     </div>
     <div>
       <img alt="Vue logo" src="../../assets/logo2.jpeg">

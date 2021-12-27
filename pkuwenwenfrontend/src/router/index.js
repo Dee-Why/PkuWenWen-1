@@ -7,11 +7,15 @@ const routes = [
       component: () => import('../components/Home.vue')
     },
     {
-        path: '/SignUp',
-        name: 'SignUp',
-        component: () => import('../components/Pages/SignUp.vue')
+        path: '/SignUpAsPatient',
+        name: 'SignUpAsPatient',
+        component: () => import('../components/Pages/SignUpAsPatient.vue')
     },
-
+    {
+        path: '/SignUpAsDoctor',
+        name: 'SignUpAsDoctor',
+        component: () => import('../components/Pages/SignUpAsDoctor.vue')
+    },
     {
         path: '/PatientSignIn',
         name: 'PatientSignIn',
@@ -24,9 +28,9 @@ const routes = [
         component: () => import('../components/Pages/DoctorSignIn.vue')
     },
     {
-        path: '/OfficeIndex',
-        name: 'OfficeIndex',
-        component: () => import('../components/Pages/OfficeIndex.vue')
+        path: '/PatientHomepage',
+        name: 'PatientHomepage',
+        component: () => import('../components/Pages/PatientHomepage.vue')
     },
     {
         path: '/:office/DoctorIndex', //使用动态链接，office是院系名

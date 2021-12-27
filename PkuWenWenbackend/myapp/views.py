@@ -11,8 +11,93 @@ from django.conf import settings
 import re
 import random
 import json
+import dateutil.parser
 
 # Create your views here.
+
+@csrf_exempt
+def patient_register(request):
+    userName = request.POST.get('userName', 'username')
+    password = request.POST.get('password', 'xxx')
+    email = request.POST.get('email', '未注册')
+
+    realName = request.POST.get('realName','xxx')
+    phoneNumber = request.POST.get('phoneNumber','xxx')
+    idCardNumber = request.POST.get('idCardNumber','xxx')
+    gender = request.POST.get('gender','x')
+    birthday = dateutil.parser.parse(request.POST.get('birthday','2000-01-01'))
+
+
+
+    res = {'retCode': 0, 'message': ''}
+
+    obj = models.Patient.objects.filter(userName=userName)
+    if obj.count() == 0:
+
+        models.Patient.objects.create(
+            userName=userName, password=password,email=email,realName=realName,
+            gender=gender,birthday=birthday,idCardNumber=idCardNumber,phoneNumber=phoneNumber
+        )
+        obj = models.Patient.objects.get(userName=userName)
+        # obj.collectList.remove('-1')
+        obj.save()
+        res['retCode'] = 1
+        res['message'] = '注册成功'
+
+    else:
+        res['retCode'] = 0
+        res['message'] = '用户名已注册'
+
+    return JsonResponse(res)
+
+@csrf_exempt
+def docter_register(request):
+    userName = request.POST.get('userName', 'username')
+    password = request.POST.get('password', 'xxx')
+    email = request.POST.get('email', '未注册')
+
+    realName = request.POST.get('realName','xxx')
+    phoneNumber = request.POST.get('phoneNumber','xxx')
+    idCardNumber = request.POST.get('idCardNumber','xxx')
+    gender = request.POST.get('gender','x')
+    birthday = dateutil.parser.parse(request.POST.get('birthday','2000-01-01'))
+
+    college = request.POST.get('college','Peking')
+    degree = request.POST.get('degree','Peking')
+    office_name = request.POST.get('office','x')
+    is_leader = int(request.POST.get('leader',0))
+
+    res = {'retCode': 0, 'message': ''}
+
+    obj = models.Doctor.objects.filter(userName=userName)
+    if obj.count() == 0:
+        office = models.Office.objects.filter(name=office_name)
+        if office.count() == 0:
+            office = None
+        else:
+            office = office[0]
+            if is_leader == True:
+                office.leader_username = userName
+                office.save()
+
+        models.Doctor.objects.create(
+            userName=userName, password=password,email=email,realName=realName,
+            gender=gender,birthday=birthday,idCardNumber=idCardNumber,phoneNumber=phoneNumber,
+            college=college,degree=degree,office=office,is_leader=is_leader
+
+        )
+        obj = models.Doctor.objects.get(userName=userName)
+        # obj.collectList.remove('-1')
+        obj.save()
+        res['retCode'] = 1
+        res['message'] = '注册成功'
+
+    else:
+        res['retCode'] = 0
+        res['message'] = '用户名已注册'
+
+    return JsonResponse(res)
+
 
 # 注册（使用了Django内助的邮箱验证功能）
 @csrf_exempt
